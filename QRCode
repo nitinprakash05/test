@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bdbd6540-3f0e-4b6a-80cd-3f9435809c2c" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<sub-flow name="implementationSub_Flow" doc:id="5d11cbd0-3289-456d-af9c-b9302b528485" >
+		<ee:transform doc:name="Set queryParams to string" doc:id="8867ead1-f845-4863-b53a-5f5b0d39f91f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+attributes.queryParams.data as String default "Empty"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Before generating QR code" doc:id="7ce54f1c-9625-4006-bd8a-ead047343499" message="Before generating QR code" />
+		<ee:transform doc:name="Generate Qr code" doc:id="d54ee234-785f-4778-83fb-3e58fac3cef4">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+import java!com::utils::GenerateQrCode
+import * from dw::core::Binaries
+output image/png with binary
+var data = payload
+//Set Height and Width of QR Code in px
+var heightOfQR = 300
+var widthOfQR = 300
+---
+//Calling Java Code to get Respective QR Code for String
+fromBase64(GenerateQrCode::generateQRcode(data,heightOfQR,widthOfQR)) as Binary]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="After generating Qr code" doc:id="fc4ee99d-e456-45bd-a928-5be5a924903d" message="After generating QR code" />
+	</sub-flow>
+</mule>
