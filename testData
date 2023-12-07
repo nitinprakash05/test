@@ -1,0 +1,40 @@
+post: https://anypoint.mulesoft.com/accounts/login
+
+{
+    "username": "little",
+    "password": "@Nitin1993"
+}
+
+
+get https://anypoint.mulesoft.com/apiplatform/repository/v2/organizations/active
+
+{
+    "parentName": null,
+    "parentId": null,
+    "domain": "demo-127",
+    "name": "Demo",
+    "id": "b7b749df-3c4d-45d2-9ee8-f0c54998d4fd",
+    "createdAt": "2018-10-13T16:33:35.919Z",
+    "updatedAt": "2020-10-13T20:48:54.331Z",
+    "ownerId": "4f2e5014-6c11-48c6-b57c-a7b8396df2dd",
+    "clientId": "f07e71af03f843e2a33c56997a0383f2",
+    "idprovider_id": "mulesoft",
+    "isFederated": false,
+    "parentOrganizationIds": [],
+    "subOrganizationIds": [],
+    "tenantOrganizationIds": [],
+    "mfaRequired": "no",
+    "isAutomaticAdminPromotionExempt": false,
+    "orgType": "anypoint",
+    "gdotId": null,
+    "isRoot": true,
+    "isMaster": true,
+    "subscription": {
+        "category": "Developer",
+        "type": "Trial",
+        "expiration": "2018-11-12T16:33:35.923Z"
+    }
+}
+
+
+GET : https://anypoint.mulesoft.com/exchange/api/v2/assets/org.mule.connectors/mule-http-connector/asset
